@@ -52,6 +52,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
             required
+            className="form-input"
             style={{ width: '100%', padding: 8, marginTop: 4 }}
           />
         </div>
@@ -63,6 +64,7 @@ const Login: React.FC = () => {
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
+              className="form-input"
               style={{ width: '100%', padding: 8, marginTop: 4 }}
             />
             <button

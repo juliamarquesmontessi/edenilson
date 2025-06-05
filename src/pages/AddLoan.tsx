@@ -80,7 +80,7 @@ export default function AddLoan() {
     if (paymentType === 'installments' || paymentType === 'interest_only') {
       let baseDate = new Date();
       baseDate.setDate(baseDate.getDate() + 30);
-      setCustomDueDate(formatDateLocal(baseDate)); // Corrigido para evitar erro de fuso horário
+      setCustomDueDate(baseDate.toISOString().split('T')[0]);
     }
     // Para Diário, não mostra campo de data
   }, [paymentType, numberOfInstallments]);
@@ -99,9 +99,10 @@ export default function AddLoan() {
       let dueDate: string = '';
       let endDate: string = '';
       if (paymentType === 'installments' || paymentType === 'interest_only') {
-        // Usa a string do input, que já está em YYYY-MM-DD local, sem conversão
-        dueDate = customDueDate;
-        endDate = customDueDate;
+        // Corrige: converte string para Date local e força horário 12:00 para evitar problemas de fuso
+        const localDate = new Date(customDueDate + 'T12:00:00');
+        dueDate = formatDateLocal(localDate);
+        endDate = formatDateLocal(localDate);
       } else if (paymentType === 'diario') {
         // Calcula a data final (último dia do empréstimo diário)
         const base = new Date(today);

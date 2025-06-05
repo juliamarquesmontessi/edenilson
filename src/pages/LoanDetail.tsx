@@ -31,8 +31,11 @@ export default function LoanDetail() {
         const today = new Date();
         const dueDate = new Date(foundLoan.dueDate);
 
+        // Soma todos os recibos do empréstimo para considerar pagamentos confirmados
+        const recibosDoEmprestimo = receipts.filter(r => r.loanId === foundLoan.id);
+        const totalPagoRecibos = recibosDoEmprestimo.reduce((sum, r) => sum + (r.amount || 0), 0);
+
         if (foundLoan.paymentType === 'diario') {
-          // Conclui se número de pagamentos >= número de dias/parcelas OU se houver pagamento do tipo 'full' (quitação manual)
           const totalPagamentos = foundLoan.payments?.length || 0;
           const totalParcelas = foundLoan.installments || foundLoan.numberOfInstallments || 0;
           const hasQuitacao = foundLoan.payments?.some(p => p.type === 'full');
@@ -44,7 +47,6 @@ export default function LoanDetail() {
             newStatus = 'active';
           }
         } else if (foundLoan.paymentType === 'interest_only') {
-          // Só conclui se houver pelo menos um pagamento do tipo 'full' >= totalAmount
           const hasFullPayment = foundLoan.payments?.some(p => p.type === 'full' && p.amount >= foundLoan.totalAmount);
           if (hasFullPayment) {
             newStatus = 'completed';
@@ -54,9 +56,8 @@ export default function LoanDetail() {
             newStatus = 'active';
           }
         } else {
-          // Modalidade parcelada: conclui se soma dos pagamentos (qualquer tipo) >= totalAmount
-          const totalPago = (foundLoan.payments?.reduce((sum, p) => sum + p.amount, 0) || 0);
-          if (totalPago >= foundLoan.totalAmount) {
+          // Modalidade parcelada: conclui se soma dos recibos (pagamentos confirmados) >= totalAmount
+          if (totalPagoRecibos >= foundLoan.totalAmount) {
             newStatus = 'completed';
           } else if (today > dueDate) {
             newStatus = 'defaulted';
@@ -73,7 +74,7 @@ export default function LoanDetail() {
         navigate('/loans');
       }
     }
-  }, [id, loans, clients, navigate]);
+  }, [id, loans, clients, receipts, navigate]);
 
   const handlePayment = async () => {
     if (!loan || !client) return;
@@ -214,15 +215,16 @@ export default function LoanDetail() {
       return;
     }
 
-    // Busca todos os pagamentos confirmados para o empréstimo
-    const pagamentos = loan.payments || [];
-    const pagoConfirmado = pagamentos.reduce((sum, p) => sum + p.amount, 0);
+    // Busca todos os recibos do empréstimo para somar o total pago confirmado
+    const recibosDoEmprestimo = receipts.filter(r => r.loanId === loan.id);
+    const pagoConfirmado = recibosDoEmprestimo.reduce((sum, r) => sum + (r.amount || 0), 0);
+
     // Descobre a parcela atual e total de parcelas, se aplicável
     let parcelaAtual: number | undefined = undefined;
     let totalParcelas: number | undefined = undefined;
     if (loan.installments && loan.installments > 1) {
       // Tenta encontrar o número da parcela pelo paymentId do recibo
-      const pagamentoRecibo = pagamentos.find(p => p.id === receipt.paymentId);
+      const pagamentoRecibo = loan.payments?.find(p => p.id === receipt.paymentId);
       parcelaAtual = pagamentoRecibo?.installmentNumber;
       totalParcelas = loan.installments;
     }
@@ -307,7 +309,8 @@ export default function LoanDetail() {
     return <div className="p-4 text-center">Carregando...</div>;
   }
   // Cálculo correto do total pago e saldo a receber
-  const totalPagoConfirmado = loan.payments?.reduce((sum, p) => sum + p.amount, 0) || 0;
+  const recibosDoEmprestimo = receipts.filter(r => loan && r.loanId === loan.id);
+  const totalPagoConfirmado = recibosDoEmprestimo.reduce((sum, r) => sum + (r.amount || 0), 0);
   // Se for 'interest_only', saldo a receber permanece igual ao total com juros
   const saldoAReceber = loan.paymentType === 'interest_only'
     ? loan.totalAmount
