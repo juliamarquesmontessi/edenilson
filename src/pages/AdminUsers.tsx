@@ -36,7 +36,6 @@ const AdminUsers: React.FC = () => {
             onChange={e => setEmail(e.target.value)}
             required
             className="form-input"
-            style={{ width: '100%', padding: 8, marginTop: 4 }}
           />
         </div>
         <div style={{ marginBottom: 16 }}>
@@ -47,7 +46,6 @@ const AdminUsers: React.FC = () => {
             onChange={e => setPassword(e.target.value)}
             required
             className="form-input"
-            style={{ width: '100%', padding: 8, marginTop: 4 }}
           />
         </div>
         {error && <div style={{ color: 'red', marginBottom: 16 }}>{error}</div>}
