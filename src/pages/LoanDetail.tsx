@@ -4,7 +4,7 @@ import { ArrowLeft, AlertTriangle } from 'lucide-react';
 import { useLocalData } from '../contexts/SupabaseContext';
 import { Client, Loan, Payment } from '../types';
 import { format } from 'date-fns';
-import { gerarRecibo } from '../../../utils/reciboGenerator';
+import { gerarRecibo } from '../utils/reciboGenerator';
 
 export default function LoanDetail() {
   const { id } = useParams<{ id: string }>();
