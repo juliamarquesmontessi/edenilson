@@ -105,16 +105,8 @@ export default function Reports() {
     const value = Number(loan.amount);
     return sum + (isNaN(value) ? 0 : value);
   }, 0);
-<<<<<<< HEAD
   // Calcula o total recebido igual ao Dashboard (soma todos os recibos gerados)
   const totalReceived = receipts.reduce((sum, receipt) => sum + (receipt.amount || 0), 0);
-=======
-  // Calcula o total recebido igual ao Dashboard (soma todos os pagamentos de todos os empréstimos)
-  const totalReceived = loans.reduce((sum, loan) => {
-    const payments = Array.isArray(loan.payments) ? loan.payments : [];
-    return sum + payments.reduce((paymentSum, payment) => paymentSum + payment.amount, 0);
-  }, 0);
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
   // Calcula o saldo a receber apenas dos empréstimos ativos
   const pendingAmount = loans
     .filter(loan => loan.status === 'active')
