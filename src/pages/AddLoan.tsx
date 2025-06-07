@@ -75,6 +75,7 @@ export default function AddLoan() {
     }
   }, [watchAmount, watchInterestRate, paymentType, numberOfInstallments]);
 
+<<<<<<< HEAD
   // useEffect para sugerir 30 dias à frente apenas se o usuário não alterou manualmente
   useEffect(() => {
     if ((paymentType === 'installments' || paymentType === 'interest_only')) {
@@ -84,6 +85,14 @@ export default function AddLoan() {
         baseDate.setDate(baseDate.getDate() + 30);
         setCustomDueDate(baseDate.toISOString().split('T')[0]);
       }
+=======
+  useEffect(() => {
+    // Para Parcelado e Somente Juros, sugere 30 dias à frente
+    if (paymentType === 'installments' || paymentType === 'interest_only') {
+      let baseDate = new Date();
+      baseDate.setDate(baseDate.getDate() + 30);
+      setCustomDueDate(baseDate.toISOString().split('T')[0]);
+>>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
     }
     // Para Diário, não mostra campo de data
   }, [paymentType, numberOfInstallments]);
@@ -102,9 +111,16 @@ export default function AddLoan() {
       let dueDate: string = '';
       let endDate: string = '';
       if (paymentType === 'installments' || paymentType === 'interest_only') {
+<<<<<<< HEAD
         // Usa exatamente o valor do input, sem ajuste de fuso
         dueDate = customDueDate; // customDueDate já está no formato YYYY-MM-DD
         endDate = customDueDate;
+=======
+        // Corrige: converte string para Date local e força horário 12:00 para evitar problemas de fuso
+        const localDate = new Date(customDueDate + 'T12:00:00');
+        dueDate = formatDateLocal(localDate);
+        endDate = formatDateLocal(localDate);
+>>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
       } else if (paymentType === 'diario') {
         // Calcula a data final (último dia do empréstimo diário)
         const base = new Date(today);

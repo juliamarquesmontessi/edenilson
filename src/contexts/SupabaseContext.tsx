@@ -422,7 +422,19 @@ function mapLoanFromDb(db: any): Loan {
   };
 }
 function mapLoanToDb(loan: Omit<Loan, 'id' | 'createdAt'>) {
+<<<<<<< HEAD
   // Salva o payment_type exatamente como selecionado
+=======
+  // Garante que payment_type seja aceito pelo Supabase
+  let paymentType: 'installments' | 'interest_only' = 'installments';
+  if (loan.paymentType === 'interest_only' || loan.paymentType === 'diario') {
+    paymentType = 'interest_only'; // 'diario' é tratado como 'interest_only' no banco
+  }
+  if (loan.paymentType === 'installments') {
+    paymentType = 'installments';
+  }
+  // Apenas cliente e valor obrigatórios, demais campos recebem valores padrão
+>>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
   return {
     client_id: loan.clientId,
     amount: loan.amount,
@@ -430,11 +442,19 @@ function mapLoanToDb(loan: Omit<Loan, 'id' | 'createdAt'>) {
     total_amount: loan.totalAmount ?? loan.amount,
     installments: loan.installments ?? 1,
     installment_amount: loan.installmentAmount ?? loan.amount,
+<<<<<<< HEAD
     due_date: loan.dueDate, // Salva como string YYYY-MM-DD, sem toISOString()
     end_date: loan.endDate, // Salva como string YYYY-MM-DD, sem toISOString()
     status: loan.status ?? 'active',
     notes: loan.notes ?? null,
     payment_type: loan.paymentType, // Salva exatamente o valor selecionado
+=======
+    due_date: loan.dueDate ?? new Date().toISOString().slice(0, 10),
+    end_date: loan.endDate ?? new Date().toISOString().slice(0, 10),
+    status: loan.status ?? 'active',
+    notes: loan.notes ?? null,
+    payment_type: paymentType, // garante compatibilidade
+>>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
     start_date: loan.startDate ?? new Date().toISOString().slice(0, 10),
   };
 }
