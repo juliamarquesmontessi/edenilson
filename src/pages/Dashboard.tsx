@@ -34,20 +34,11 @@ export default function Dashboard() {
   }, [clients, loans, receipts, totalReceived]);
 
   useEffect(() => {
-<<<<<<< HEAD
     // O total recebido deve ser atualizado sempre que loans OU receipts mudarem
     // pois a exclusão de recibos/pagamentos pode afetar o valor
     const received = receipts.reduce((sum, receipt) => sum + (receipt.amount || 0), 0);
     setTotalReceived(received);
   }, [loans, receipts]);
-=======
-    const received = loans.reduce((sum, loan) => {
-      return sum + (loan.payments?.reduce((paymentSum, payment) => paymentSum + payment.amount, 0) || 0);
-    }, 0);
-
-    setTotalReceived(received);
-  }, [loans]);
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
 
   return (
     <div>

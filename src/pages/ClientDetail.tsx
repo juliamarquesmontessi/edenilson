@@ -126,7 +126,6 @@ export default function ClientDetail() {
               </div>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<<<<<<< HEAD
                 <div className="break-words">
                   <label className="text-sm text-gray-500">Email</label>
                   <p className="text-gray-900 break-all max-w-full overflow-hidden text-ellipsis whitespace-pre-line sm:whitespace-normal" style={{wordBreak: 'break-all', wordWrap: 'break-word'}}>{client.email || '-'}</p>
@@ -134,16 +133,6 @@ export default function ClientDetail() {
                 <div className="break-words">
                   <label className="text-sm text-gray-500">Telefone</label>
                   <p className="text-gray-900 break-all max-w-full overflow-hidden text-ellipsis whitespace-pre-line sm:whitespace-normal" style={{wordBreak: 'break-all', wordWrap: 'break-word'}}>{client.phone}</p>
-=======
-                <div>
-                  <label className="text-sm text-gray-500">Email</label>
-                  <p className="text-gray-900">{client.email || '-'}</p>
-                </div>
-                
-                <div>
-                  <label className="text-sm text-gray-500">Telefone</label>
-                  <p className="text-gray-900">{client.phone}</p>
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                 </div>
               </div>
               
@@ -208,18 +197,14 @@ export default function ClientDetail() {
                         Status
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-<<<<<<< HEAD
                         Saldo a Receber
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-=======
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                         Ações
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-<<<<<<< HEAD
                     {clientLoans.map((loan) => {
                       // Calcula o total pago confirmado via recibos para este empréstimo
                       const recibosDoEmprestimo = clientReceipts.filter(r => r.loanId === loan.id);
@@ -259,36 +244,6 @@ export default function ClientDetail() {
                         </tr>
                       );
                     })}
-=======
-                    {clientLoans.map((loan) => (
-                      <tr key={loan.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {new Date(loan.createdAt).toLocaleDateString('pt-BR')}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(loan.amount)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {loan.installments}x de {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(loan.installmentAmount)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                            ${loan.status === 'active' ? 'bg-green-100 text-green-800' : 
-                              loan.status === 'completed' ? 'bg-blue-100 text-blue-800' : 
-                              'bg-red-100 text-red-800'}`}
-                          >
-                            {loan.status === 'active' ? 'Ativo' : 
-                              loan.status === 'completed' ? 'Concluído' : 'Inadimplente'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          <Link to={`/loans/${loan.id}`} className="text-indigo-600 hover:text-indigo-900">
-                            Detalhes
-                          </Link>
-                        </td>
-                      </tr>
-                    ))}
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                   </tbody>
                 </table>
               </div>
@@ -464,36 +419,22 @@ export default function ClientDetail() {
               </div>
               <div className="space-y-4">
                 <div>
-<<<<<<< HEAD
                   <label className="text-sm text-gray-500">Nome Completo <span className="text-red-500">*</span></label>
-=======
-                  <label className="text-sm text-gray-500">Nome Completo</label>
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                   <input
                     type="text"
                     value={client.name}
                     onChange={e => setClient({ ...client, name: e.target.value })}
-<<<<<<< HEAD
                     required
-=======
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   />
                 </div>
                 <div>
-<<<<<<< HEAD
                   <label className="text-sm text-gray-500">Telefone <span className="text-red-500">*</span></label>
-=======
-                  <label className="text-sm text-gray-500">Telefone</label>
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                   <input
                     type="text"
                     value={client.phone}
                     onChange={e => setClient({ ...client, phone: e.target.value })}
-<<<<<<< HEAD
                     required
-=======
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   />
                 </div>
@@ -575,7 +516,6 @@ export default function ClientDetail() {
                   type="button"
                   className="btn btn-primary"
                   onClick={() => {
-<<<<<<< HEAD
                     if (!client.name || !client.phone) {
                       alert('Preencha os campos obrigatórios: Nome e Telefone.');
                       return;
@@ -583,18 +523,6 @@ export default function ClientDetail() {
                     const updatedData = {
                       name: client.name,
                       phone: client.phone
-=======
-                    const updatedData = {
-                      name: client.name,
-                      phone: client.phone,
-                      cpf: client.cpf,
-                      email: client.email,
-                      address: client.address,
-                      city: client.city,
-                      state: client.state,
-                      zipCode: client.zipCode,
-                      notes: client.notes
->>>>>>> dc3fd465cefafd4c30e6629156e4532819891d71
                     };
                     handleEditClient(updatedData);
                   }}
